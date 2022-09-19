@@ -1,0 +1,203 @@
+﻿<Window x:Class="PROG6212.ModuleListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PROG6212"
+        xmlns:m="clr-namespace:PROG6212.Models"
+        xmlns:vm="clr-namespace:PROG6212.ViewModels"
+        xmlns:val="clr-namespace:PROG6212.Validation"
+        mc:Ignorable="d"
+        Title="Study Tracker" Height="600" Width="800">
+
+    <Window.Resources>
+        <m:Module x:Key="module" />
+        <vm:ViewModelBase x:Key="viewmodel" />
+
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox"/>
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+            </StackPanel>
+        </ControlTemplate>
+
+        <Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ListView Grid.Row="0" Grid.Column="0" DataContext="{Binding Source={StaticResource viewmodel}}" ItemsSource="{Binding}">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black" BorderThickness="0" CornerRadius="3" Margin="0,3" Grid.ColumnSpan="4" Background="White">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="170"/>
+                                <ColumnDefinition  Width="110"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding ModuleName}" />
+                                <TextBlock FontSize="14" FontStyle="Italic" Text="{Binding ModuleCode}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock TextWrapping="Wrap" FontSize="13" VerticalAlignment="Center">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="( 12 / {0} ) Hours Of Studying Completed. {1} Hours Today.">
+                                            <Binding Path="RecommendedStudyHours" />
+                                            <Binding Path="HoursStudiedToday" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                <ProgressBar Value="12" Width="100" Height="40" Foreground="MediumSlateBlue"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" DataContext="{Binding Source={StaticResource module}}" VerticalAlignment="Top">
+            <TextBlock Padding="3" Margin="10, 0, 0, 0" FontSize="9">Module Code</TextBlock>
+            <TextBox x:Name="TextBoxModuleCode" Padding="3" Margin="10, 0, 0, 0"  FontSize="15"
+             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
+                <TextBox.Text>
+                    <Binding Path="ModuleCode" Source="{StaticResource module}" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                        <Binding.ValidationRules>
+                            <val:StringValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBlock Padding="3" Margin="10, 15, 0, 0" FontSize="9">Module Name</TextBlock>
+            <TextBox x:Name="TextBoxModuleName" Padding="3" Margin="10, 0, 0, 0"  FontSize="15"
+             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
+                <TextBox.Text>
+                    <Binding Path="ModuleName" Source="{StaticResource module}" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                        <Binding.ValidationRules>
+                            <val:StringValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBlock Padding="3" Margin="10, 15, 0, 0" FontSize="9">Module Credits</TextBlock>
+            <TextBox x:Name="TextBoxCredits" Padding="3" Margin="10, 0, 0, 0"  FontSize="15"
+             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
+                <TextBox.Text>
+                    <Binding Path="Credits" Source="{StaticResource module}" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                        <Binding.ValidationRules>
+                            <val:CreditsValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBlock Padding="3" Margin="10, 15, 0, 0" FontSize="9">Module Class Hours Per Week</TextBlock>
+            <TextBox x:Name="TextBoxClassHoursPerWeek" Padding="3" Margin="10, 0, 0, 0"  FontSize="15"
+             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
+                <TextBox.Text>
+                    <Binding Path="ClassHoursPerWeek" Source="{StaticResource module}" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                        <Binding.ValidationRules>
+                            <val:ClassHoursPerWeekValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Button Padding="3" Margin="10, 15, 0, 0" FontSize="15"  CommandParameter="{Binding}" Command="{Binding AddModuleCommand, Source={StaticResource viewmodel}}" >
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="IsEnabled" Value="false" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=TextBoxModuleCode, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding ElementName=TextBoxModuleName, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding ElementName=TextBoxCredits, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding ElementName=TextBoxClassHoursPerWeek, Path=(Validation.HasError)}" Value="false" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="true" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                Add Module
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom"  DataContext="{Binding Source={StaticResource module}}">
+            <TextBlock Padding="3" Margin="10, 0, 0, 0" FontSize="9">Select Module</TextBlock>
+            <ComboBox x:Name="ComboBoxModuleCode" Padding="3" FontSize="15" Margin="10, 0, 0, 0" ItemsSource="{Binding Source={StaticResource viewmodel}}" >
+                <ComboBox.SelectedItem>
+                    <Binding Path="SelectedItem">
+                        <Binding.ValidationRules>
+                            <val:ComboBoxNotNullValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.SelectedItem>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ModuleCode}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Padding="3" Margin="10, 5, 0, 0" FontSize="9">How many hours did you study today?</TextBlock>
+            <TextBox x:Name="TextBoxHoursStudiedToday" Padding="3" Margin="10, 0, 0, 0"  FontSize="15"
+             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
+                <TextBox.Text>
+                    <Binding Source="{StaticResource module}" Path="HoursStudiedToday" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <val:HoursStudiedTodayValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Button Padding="3" Margin="10, 15, 0, 0" FontSize="15" CommandParameter="{Binding}" Command="{Binding AddStudyingDateCommand, Source={StaticResource viewmodel}}" >
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="IsEnabled" Value="false" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=TextBoxHoursStudiedToday, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding ElementName=ComboBoxModuleCode, Path=(Validation.HasError)}" Value="false" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="true" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                Add Time Studied Today
+            </Button>
+        </StackPanel>
+
+    </Grid>
+</Window>

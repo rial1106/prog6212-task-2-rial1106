@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace PROG6212.Models
 {
-    internal class StudyDate
+    public class StudyDate
     {
-        private DateTime date;
+        private DateTime date = DateTime.Now;
         private double hoursStudied;
 
-        public StudyDate(DateTime date, double hoursStudied)
+        public StudyDate()
         {
-            this.Date = date;
-            this.HoursStudied = hoursStudied;
+            this.HoursStudied = 0;
         }
 
         public DateTime Date

@@ -26,8 +26,15 @@ namespace PROG6212.ViewModels.Commands
 
         public void Execute(object? parameter)
         {
-            var tmp = parameter as Module;
-            this.ViewModel.AddStudyingDateMethod(tmp);
+
+            var parameters = (object[])parameter;
+
+            if (parameters[0] != null && parameters[1] != null)
+            {
+                Module module = (Module)parameters[0];
+                this.ViewModel.AddStudyingDateMethod(module.ModuleCode, Double.Parse(parameters[1].ToString()));
+            }
+
         }
     }
 }

@@ -52,15 +52,16 @@ namespace PROG6212.ViewModels
             Add(m);
         }
 
-        public void AddStudyingDateMethod(Module mod)
+        public void AddStudyingDateMethod(string moduleCode, double hours)
         {
             foreach (var module in this)
             {
-                if(module.ModuleCode == mod.ModuleCode)
+                if(module.ModuleCode == moduleCode)
                 {
-                    module.HoursStudiedToday = mod.HoursStudiedToday;
+                    StudyDate studyDate = new StudyDate();
+                    studyDate.HoursStudied = hours;
+                    module.AddStudyDate(studyDate);
                 }
-                int x = 0;
             }
 
         }

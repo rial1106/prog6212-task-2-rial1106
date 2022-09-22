@@ -1,11 +1,12 @@
 ﻿using PROG6212.Models;
 using System;
-using System.Linq;
 using System.Windows.Input;
-using System.Xml.Linq;
 
 namespace PROG6212.ViewModels.Commands
 {
+    /* This class allows us to add a StudyDate to a Module in our ObservableCollection<Module> ViewModel.
+     * The ICommand interface provides a callback to the UI.
+     */
     public class AddStudyingDateCommand : ICommand
     {
 

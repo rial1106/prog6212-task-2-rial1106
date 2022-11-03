@@ -83,7 +83,6 @@
             x:Name="ButtonSubmit"
             Margin="15,15,15,0"
             Padding="3"
-            Click="ButtonSubmit_Click"
             FontSize="15">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">

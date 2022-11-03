@@ -6,8 +6,8 @@
     internal static class User
     {
 
-        private static string Username; // The logged in Username.
-        private static string Password; // How many weeks long the semester is.
+        public static string Username; // The logged in Username.
+        public static string Password; // The password.
 
         // Getters and Setters.
         public static string Username1
@@ -23,7 +23,7 @@
             }
         }
 
-        public static int Password1
+        public static string Password1
         {
             get
             {
@@ -35,7 +35,6 @@
                 Password = value;
             }
         }
-
 
     }
 }

@@ -1,6 +1,9 @@
-﻿using PROG6212.Models;
+﻿using PROG6212.Data;
+using PROG6212.Models;
 using PROG6212.ViewModels.Commands;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Design.Serialization;
+using Module = PROG6212.Models.Module;
 
 namespace PROG6212.ViewModels
 {
@@ -20,40 +23,16 @@ namespace PROG6212.ViewModels
             this.AddStudyingDateCommand = new AddStudyingDateCommand(this);
 
 
-            // Add Placeholder Modules to the UI.
-            Add(new Module()
-            {
-                ModuleName = "Databases 1A",
-                ModuleCode = "DBAS6211",
-                Credits = 40,
-                ClassHoursPerWeek = 20
-            });
-
-            Add(new Module()
-            {
-                ModuleName = "Cloud Development 2A",
-                ModuleCode = "CLDV6212",
-                Credits = 50,
-                ClassHoursPerWeek = 10
-            });
-
-            Add(new Module()
-            {
-                ModuleName = "Network Engineering 2A",
-                ModuleCode = "NWEG5211",
-                Credits = 45,
-                ClassHoursPerWeek = 36
-            });
         }
 
         // Manually add a Module from inputted values on the UI.
         public void AddModuleMethod(Module module)
         {
             Module m = new Module();
-            m.ModuleCode = module.ModuleCode;
-            m.ModuleName = module.ModuleName;
-            m.ClassHoursPerWeek = module.ClassHoursPerWeek;
-            m.Credits = module.Credits;
+            m.moduleCode = module.moduleCode;
+            m.moduleName = module.moduleName;
+            m.classHoursPerWeek = module.classHoursPerWeek;
+            m.credits = module.credits;
 
             Add(m);
         }
@@ -63,11 +42,11 @@ namespace PROG6212.ViewModels
         {
             foreach (var module in this) // Loop over all added modules.
             {
-                if (module.ModuleCode == moduleCode) // If the module code matches a module add the studying date to that module.
+                if (module.moduleCode == moduleCode) // If the module code matches a module add the studying date to that module.
                 {
                     StudyDate studyDate = new StudyDate();
-                    studyDate.HoursStudied = hours;
-                    module.AddStudyDate(studyDate);
+                    studyDate.hoursStudied = hours;
+                    //module.AddStudyDate(studyDate);
                 }
             }
 

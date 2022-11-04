@@ -33,7 +33,7 @@ namespace PROG6212.ViewModels.Commands
             if (parameters[0] != null && parameters[1] != null)
             {
                 Module module = (Module)parameters[0];
-                this.ViewModel.AddStudyingDateMethod(module.ModuleCode, Double.Parse(parameters[1].ToString()));
+                this.ViewModel.AddStudyingDateMethod(module.moduleCode, Double.Parse(parameters[1].ToString()));
             }
 
         }

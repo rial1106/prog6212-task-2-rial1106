@@ -41,8 +41,9 @@
             x:Name="DatePickerStartDate"
             Margin="15,0,15,0"
             Padding="3"
-            FontSize="15"
-            SelectedDate="{Binding Path=(m:Semester.StartDate)}" />
+            FontSize="15" />
+        <!--  ="{Binding Path=(m:Semester.StartDate)}" />  -->
+
         <TextBlock
             Margin="15,15,15,0"
             Padding="3"
@@ -57,14 +58,7 @@
             Style="{StaticResource TextBoxInError}"
             Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
             <TextBox.Text>
-                <Binding
-                    Mode="TwoWay"
-                    Path="(m:Semester.NumberOfWeeks)"
-                    UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <val:NumberOfWeeksValidation />
-                    </Binding.ValidationRules>
-                </Binding>
+                1
             </TextBox.Text>
         </TextBox>
         <Button

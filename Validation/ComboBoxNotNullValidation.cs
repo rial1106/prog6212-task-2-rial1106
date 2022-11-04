@@ -17,7 +17,7 @@ namespace PROG6212.Validation
 
             Module mod = (Module)value;
 
-            if(string.IsNullOrEmpty(mod.ModuleCode))
+            if(string.IsNullOrEmpty(mod.moduleCode))
             {
                 return new ValidationResult(false, "Please select a module!");
             }
